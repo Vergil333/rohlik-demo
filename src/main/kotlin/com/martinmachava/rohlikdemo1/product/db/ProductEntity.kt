@@ -10,7 +10,7 @@ import java.util.*
 class ProductEntity(
     @Id
     val id: UUID,
-    val name: String,
-    val price: Double,
-    val quantity: Long,
+    var name: String,
+    var price: Double,
+    var quantity: Long,
 )

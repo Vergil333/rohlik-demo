@@ -22,6 +22,12 @@ class ProductController(
         ?.let { ResponseEntity.ok(it) }
         ?: ResponseEntity.notFound().build()
 
+    @PutMapping(value = ["/{id}"])
+    fun updateProduct(@PathVariable id: UUID, @RequestBody update: UpdateProductDto): ResponseEntity<ProductDto> =
+        productFacade.updateProduct(id = id, update = update)
+            ?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.notFound().build()
+
     @DeleteMapping(value = ["/{id}"])
-    fun delete(@PathVariable(value = "id") id: UUID) = productFacade.delete(productId = id)
+    fun delete(@PathVariable id: UUID) = productFacade.delete(productId = id)
 }
