@@ -4,6 +4,7 @@ import com.martinmachava.rohlikdemo1.product.service.model.CreateProductDomain
 import com.martinmachava.rohlikdemo1.product.service.model.ProductDomain
 import org.springframework.stereotype.Component
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Component
 class ProductAdapter(
@@ -13,6 +14,11 @@ class ProductAdapter(
     fun create(newProduct: CreateProductDomain) = newProduct.toEntity()
         .let { repository.save(it) }
         .toDomain()
+
+    fun getProduct(productId: UUID) = repository.findById(productId).getOrNull()?.toDomain()
+
+    fun delete(productId: UUID) = repository.findById(productId)
+        .ifPresent { repository.delete(it) }
 }
 
 private fun CreateProductDomain.toEntity() = ProductEntity(

@@ -1,10 +1,10 @@
 package com.martinmachava.rohlikdemo1.product.api.model
 
 import com.martinmachava.rohlikdemo1.product.service.ProductFacade
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.net.URI
+import java.util.UUID
 
 @RestController
 @RequestMapping(value = ["/product"])
@@ -13,6 +13,15 @@ class ProductController(
 ) {
 
     @PostMapping
-    fun create(@RequestBody newProductDto: CreateProductDto): ProductDto = productFacade
+    fun create(@RequestBody newProductDto: CreateProductDto): ResponseEntity<ProductDto> = productFacade
         .create(newProductDto = newProductDto)
+        .let { ResponseEntity.created(URI.create("/product/${it.id}")).body(it) }
+
+    @GetMapping(value = ["/{id}"])
+    fun getProduct(@PathVariable id: UUID): ResponseEntity<ProductDto> = productFacade.getProduct(productId = id)
+        ?.let { ResponseEntity.ok(it) }
+        ?: ResponseEntity.notFound().build()
+
+    @DeleteMapping(value = ["/{id}"])
+    fun delete(@PathVariable(value = "id") id: UUID) = productFacade.delete(productId = id)
 }
