@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: rohlik-demo
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5434/postgres
+    username: rohlik
+    password: rohlik
+    driver-class-name: org.postgresql.Driver
