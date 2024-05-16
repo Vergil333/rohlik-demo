@@ -4,11 +4,9 @@ import com.martinmachava.rohlikdemo1.order.api.model.CreateOrderDto
 import com.martinmachava.rohlikdemo1.order.api.model.CreatedOrderDto
 import com.martinmachava.rohlikdemo1.order.service.OrderFacade
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.net.URI
+import java.util.*
 
 @RestController
 @RequestMapping(value = ["/order"])
@@ -26,6 +24,8 @@ class OrderController(
 //        ?.let { ResponseEntity.ok(it) }
 //        ?: ResponseEntity.notFound().build()
 
-//    @DeleteMapping(value = ["/{id}"])
-//    fun delete(@PathVariable id: UUID) = orderFacade.delete(orderId = id)
+    @DeleteMapping(value = ["/{id}"])
+    fun delete(@PathVariable id: UUID): ResponseEntity<Unit> = if (orderFacade.cancel(orderId = id))
+        ResponseEntity.ok().build()
+    else ResponseEntity.notFound().build()
 }

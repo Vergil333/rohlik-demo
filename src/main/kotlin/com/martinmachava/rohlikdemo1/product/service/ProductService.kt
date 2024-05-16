@@ -29,13 +29,17 @@ class ProductService(
 
     fun delete(productId: UUID) = productAdapter.delete(productId = productId)
 
-    fun increaseQuantity(productId: UUID, quantity: Long) = productAdapter.increaseQuantity(
-        productId = productId,
-        addQuantity = quantity
-    ) ?: logger.warn("Product (ID: $productId) quantity not increased, product is probably deleted")
+    fun increaseQuantity(productId: UUID, quantity: Long) {
+        productAdapter.increaseQuantity(
+            productId = productId,
+            addQuantity = quantity
+        ) ?: logger.warn("Product (ID: $productId) quantity not increased, product is probably deleted")
+    }
 
-    fun decreaseQuantity(productId: UUID, quantity: Long) = productAdapter.decreaseQuantity(
-        productId = productId,
-        subtractQuantity = quantity
-    ) ?: logger.warn("Product (ID: $productId) quantity not decreased, product is probably deleted")
+    fun decreaseQuantity(productId: UUID, quantity: Long) {
+        productAdapter.decreaseQuantity(
+            productId = productId,
+            subtractQuantity = quantity
+        ) ?: logger.warn("Product (ID: $productId) quantity not decreased, product is probably deleted")
+    }
 }

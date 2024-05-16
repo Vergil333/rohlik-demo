@@ -4,6 +4,7 @@ import com.martinmachava.rohlikdemo1.order.service.model.ProductQuantityDomain
 import org.springframework.stereotype.Component
 import java.time.ZonedDateTime
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Component
 class OrderAdapter(
@@ -25,17 +26,19 @@ class OrderAdapter(
 
 //    fun getOrder(orderId: UUID): OrderDomain? = repository.findById(orderId).getOrNull()?.toDomain()
 
-//    fun delete(orderId: UUID) = repository.findById(orderId)
-//        .ifPresent { repository.delete(it) }
+    /**
+     * Cancel pending order and releases the products quantities
+     *
+     * @return products from the order to release or null if order is not found
+     */
+    fun cancel(orderId: UUID) = repository.findById(orderId).getOrNull()?.let {
+        require(it.status == Status.PENDING) {
+            "Order with id $orderId could not be cancelled (is not in pending state)."
+        }
+        it.apply { status = Status.CANCELLED }
+        repository.save(it)
+    }?.products
 }
-
-//private fun CreateOrderDomain.toEntity() = OrderEntity(
-//    id = UUID.randomUUID(),
-//    createdAt = ZonedDateTime.now(),
-//    paidAt = null,
-//    status = Status.PENDING,
-//    products = this.products.associate { it.productId to it.quantity }
-//)
 
 private fun Collection<ProductQuantityDomain>.toNewOrderEntity() = OrderEntity(
     id = UUID.randomUUID(),

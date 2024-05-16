@@ -36,5 +36,8 @@ class ProductController(
             ?: ResponseEntity.notFound().build()
 
     @DeleteMapping(value = ["/{id}"])
-    fun delete(@PathVariable id: UUID) = productFacade.delete(productId = id)
+    fun delete(@PathVariable id: UUID): ResponseEntity<Unit> {
+        productFacade.delete(productId = id)
+        return ResponseEntity.ok().build()
+    }
 }

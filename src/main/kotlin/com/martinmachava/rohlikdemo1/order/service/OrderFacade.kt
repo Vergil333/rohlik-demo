@@ -7,6 +7,7 @@ import com.martinmachava.rohlikdemo1.order.service.model.CreateOrderDomain
 import com.martinmachava.rohlikdemo1.order.service.model.CreatedOrderDomain
 import com.martinmachava.rohlikdemo1.order.service.model.ProductQuantityDomain
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class OrderFacade(
@@ -19,7 +20,10 @@ class OrderFacade(
 
 //    fun getOrder(orderId: UUID): OrderDto? = orderService.getOrder(orderId = orderId)?.toDto()
 
-//    fun delete(orderId: UUID) = orderService.delete(orderId = orderId)
+    /**
+     * @return false if order was not found, true otherwise
+     */
+    fun cancel(orderId: UUID) = orderService.cancel(orderId = orderId)
 }
 
 private fun CreateOrderDto.toDomain() = CreateOrderDomain(

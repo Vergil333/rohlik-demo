@@ -55,13 +55,23 @@ class OrderService(
     }
 
 //    fun getOrder(orderId: UUID): OrderDomain? = orderAdapter.getOrder(orderId = orderId)
-//
-//    fun delete(orderId: UUID) = orderAdapter.delete(orderId = orderId)
+
+    /**
+     * @return false if order was not found, true otherwise
+     */
+    fun cancel(orderId: UUID): Boolean {
+        val productsToRelease = orderAdapter.cancel(orderId = orderId)
+        productsToRelease?.forEach {
+            productService.increaseQuantity(productId = it.key, quantity = it.value)
+        }
+
+        return productsToRelease != null
+    }
 
     @Transactional
     fun expirePendingOrders(expirationTime: ZonedDateTime) {
-        val pendingOrders = orderAdapter.findPendingOrdersCreatedBefore(expirationTime)
-        pendingOrders.forEach { pendingOrder ->
+        val pendingOrdersToRelease = orderAdapter.findPendingOrdersCreatedBefore(expirationTime)
+        pendingOrdersToRelease.forEach { pendingOrder ->
             pendingOrder.status = Status.EXPIRED
             pendingOrder.products.forEach {
                 productService.increaseQuantity(productId = it.key, quantity = it.value)

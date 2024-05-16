@@ -43,3 +43,14 @@ Content-Type: application/json
     )
     client.global.set("orderId", orderId)
 %}
+
+
+### Delete last order
+DELETE localhost:8080/order/{{orderId}}
+Content-Type: application/json
+
+> {%
+    client.test("Request successfully cancelled the order", () => {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
