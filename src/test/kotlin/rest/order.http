@@ -1,0 +1,45 @@
+### Get all products
+GET localhost:8080/product
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", () => {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    const products = response.body
+
+    client.test("Response should contain ID of created product", () => {
+            client.assert(products.length > 0, "Product list is empty")
+        }
+    )
+
+    client.global.set("productId1", products[0].id)
+    client.global.set("productQuantity1", products[0].quantity)
+%}
+
+### Create new order
+POST localhost:8080/order
+Content-Type: application/json
+
+{
+  "products": [
+    {
+      "productId": "{{productId1}}",
+      "quantity": {{productQuantity1}}
+    }
+  ]
+}
+
+> {%
+    client.test("Request successfully created new order", () => {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+
+    const orderId = response.body.orderId
+
+    client.test("Response should contain ID of created order", () => client
+        .assert(orderId != null, "Order ID is missing in response")
+    )
+    client.global.set("orderId", orderId)
+%}

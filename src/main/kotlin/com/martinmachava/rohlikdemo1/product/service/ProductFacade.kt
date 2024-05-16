@@ -20,6 +20,8 @@ class ProductFacade(
 
     fun getProduct(productId: UUID): ProductDto? = productService.getProduct(productId = productId)?.toDto()
 
+    fun getProducts(): Set<ProductDto> = productService.getProducts().map { it.toDto() }.toSet()
+
     fun updateProduct(id: UUID, update: UpdateProductDto): ProductDto? = productService.update(
         id = id,
         update = update.toDomain(),

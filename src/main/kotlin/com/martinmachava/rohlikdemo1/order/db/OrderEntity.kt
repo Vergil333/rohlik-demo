@@ -5,12 +5,12 @@ import java.time.ZonedDateTime
 import java.util.*
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 class OrderEntity(
     @Id
     val id: UUID,
     val createdAt: ZonedDateTime,
-    val paidAt: ZonedDateTime,
+    val paidAt: ZonedDateTime?,
     @Enumerated(EnumType.STRING)
     var status: Status,
     @ElementCollection

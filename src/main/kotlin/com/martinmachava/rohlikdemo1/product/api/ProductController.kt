@@ -20,6 +20,10 @@ class ProductController(
         .create(newProductDto = newProductDto)
         .let { ResponseEntity.created(URI.create("/product/${it.id}")).body(it) }
 
+    @GetMapping
+    fun getProducts(): ResponseEntity<Set<ProductDto>> = productFacade.getProducts()
+        .let { ResponseEntity.ok(it) }
+
     @GetMapping(value = ["/{id}"])
     fun getProduct(@PathVariable id: UUID): ResponseEntity<ProductDto> = productFacade.getProduct(productId = id)
         ?.let { ResponseEntity.ok(it) }

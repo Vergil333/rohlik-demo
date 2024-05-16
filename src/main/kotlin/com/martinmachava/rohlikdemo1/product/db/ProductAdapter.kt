@@ -18,6 +18,12 @@ class ProductAdapter(
 
     fun getProduct(productId: UUID): ProductDomain? = repository.findById(productId).getOrNull()?.toDomain()
 
+    fun getProducts(productIds: Collection<UUID>): Set<ProductDomain> = repository.findAllById(productIds)
+        .map { it.toDomain() }.toSet()
+
+    fun getProducts(): Set<ProductDomain> = repository.findAll()
+        .map { it.toDomain() }.toSet()
+
     fun update(id: UUID, update: UpdateProductDomain): ProductDomain? = repository.findById(id).getOrNull()?.apply {
         name = update.name
         price = update.price
@@ -32,6 +38,12 @@ class ProductAdapter(
     fun increaseQuantity(productId: UUID, addQuantity: Long) = repository.findById(productId).getOrNull()?.apply {
         quantity += addQuantity
     }
+        ?.let { repository.save(it) }
+
+    fun decreaseQuantity(productId: UUID, subtractQuantity: Long) = repository.findById(productId).getOrNull()?.apply {
+        quantity -= subtractQuantity
+    }
+        ?.let { repository.save(it) }
 }
 
 private fun CreateProductDomain.toEntity() = ProductEntity(

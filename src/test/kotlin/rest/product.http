@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 > {%
-    client.test("Request successfully created new product", function () {
+    client.test("Request successfully created new product", () => {
         client.assert(response.status === 201, "Response status is not 201");
     });
 
@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 > {%
-    client.test("Request executed successfully", function () {
+    client.test("Request executed successfully", () => {
         client.assert(response.status === 200, "Response status is not 200");
     });
 
@@ -50,7 +50,7 @@ GET localhost:8080/product/{{productId}}
 Content-Type: application/json
 
 > {%
-    client.test("Request executed successfully", function () {
+    client.test("Request executed successfully", () => {
         client.assert(response.status === 200, "Response status is not 200");
     });
 
@@ -67,7 +67,7 @@ DELETE localhost:8080/product/{{productId}}
 Content-Type: application/json
 
 > {%
-    client.test("Request executed successfully", function () {
+    client.test("Request executed successfully", () => {
         client.assert(response.status === 200, "Response status is not 200");
     });
 %}
@@ -77,7 +77,7 @@ GET localhost:8080/product/{{productId}}
 Content-Type: application/json
 
 > {%
-    client.test("Request for deleted product returns 404", function () {
+    client.test("Request for deleted product returns 404", () => {
         client.assert(response.status === 404, "Response status is not 404");
     });
 %}
