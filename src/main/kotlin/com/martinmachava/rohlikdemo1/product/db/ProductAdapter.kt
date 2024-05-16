@@ -28,6 +28,10 @@ class ProductAdapter(
 
     fun delete(productId: UUID) = repository.findById(productId)
         .ifPresent { repository.delete(it) }
+
+    fun increaseQuantity(productId: UUID, addQuantity: Long) = repository.findById(productId).getOrNull()?.apply {
+        quantity += addQuantity
+    }
 }
 
 private fun CreateProductDomain.toEntity() = ProductEntity(

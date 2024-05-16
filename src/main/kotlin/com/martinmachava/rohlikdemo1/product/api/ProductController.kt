@@ -1,5 +1,8 @@
-package com.martinmachava.rohlikdemo1.product.api.model
+package com.martinmachava.rohlikdemo1.product.api
 
+import com.martinmachava.rohlikdemo1.product.api.model.CreateProductDto
+import com.martinmachava.rohlikdemo1.product.api.model.ProductDto
+import com.martinmachava.rohlikdemo1.product.api.model.UpdateProductDto
 import com.martinmachava.rohlikdemo1.product.service.ProductFacade
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

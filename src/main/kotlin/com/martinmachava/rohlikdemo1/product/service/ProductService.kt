@@ -20,4 +20,9 @@ class ProductService(
     fun update(id: UUID, update: UpdateProductDomain) = productAdapter.update(id = id, update = update)
 
     fun delete(productId: UUID) = productAdapter.delete(productId = productId)
+
+    fun increaseQuantity(productId: UUID, quantity: Long) = productAdapter.increaseQuantity(
+        productId = productId,
+        addQuantity = quantity
+    )
 }
